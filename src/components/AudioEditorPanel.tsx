@@ -410,46 +410,48 @@ export const AudioEditorPanel = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
     >
       {/* Header */}
-      <div className="glass-strong rounded-2xl p-6 border border-dark-border/50">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4">
           <motion.div
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           >
-            <Sparkles className="w-6 h-6 text-purple-400" />
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
           </motion.div>
           <div>
-            <h2 className="text-2xl font-bold gradient-text">PCM Audio Generator</h2>
-            <p className="text-sm text-dark-textSecondary">Mini Audacity for ESP32/Arduino</p>
+            <h2 className="text-xl sm:text-2xl font-bold gradient-text">PCM Audio Generator</h2>
+            <p className="text-xs sm:text-sm text-dark-textSecondary">Mini Audacity for ESP32/Arduino</p>
           </div>
         </div>
 
         {/* Input Methods */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleRecord}
-            className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
               isRecording
                 ? 'bg-red-500 hover:bg-red-600 text-white'
                 : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
             }`}
           >
-            <Mic className="w-5 h-5" />
-            {isRecording ? 'Stop Recording' : 'Record Voice'}
+            <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">{isRecording ? 'Stop Recording' : 'Record Voice'}</span>
+            <span className="sm:hidden">{isRecording ? 'Stop' : 'Record'}</span>
           </motion.button>
 
           <motion.label
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white cursor-pointer"
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white cursor-pointer text-sm sm:text-base"
           >
-            <Upload className="w-5 h-5" />
-            Import WAV/MP3
+            <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">Import WAV/MP3</span>
+            <span className="sm:hidden text-center">Import<br/>WAV/MP3</span>
             <input
               type="file"
               accept="audio/*"
@@ -460,25 +462,28 @@ export const AudioEditorPanel = () => {
         </div>
 
         {/* Waveform Viewer */}
-        <WaveformViewer
-          audioBuffer={audioBuffer}
-          width={800}
-          height={200}
-          progress={playbackProgress}
-        />
+        <div className="overflow-x-auto">
+          <WaveformViewer
+            audioBuffer={audioBuffer}
+            width={800}
+            height={200}
+            progress={playbackProgress}
+          />
+        </div>
 
         {/* Audio Timeline */}
         {audioBuffer && (
-          <div className="mt-4 glass rounded-lg px-4 py-3">
-            <div className="flex items-center justify-between mb-2">
+          <div className="mt-4 glass rounded-lg px-3 sm:px-4 py-2 sm:py-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-2">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-purple-400" />
-                <span className="text-sm font-semibold text-dark-text">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+                <span className="text-xs sm:text-sm font-semibold text-dark-text">
                   {formatTime(currentTime)} / {formatTime(audioBuffer.duration)}
                 </span>
               </div>
-              <div className="text-xs text-dark-textSecondary">
-                Sample Rate: {audioBuffer.sampleRate}Hz | Channels: {audioBuffer.numberOfChannels}
+              <div className="text-[10px] sm:text-xs text-dark-textSecondary">
+                <span className="hidden sm:inline">Sample Rate: {audioBuffer.sampleRate}Hz | Channels: {audioBuffer.numberOfChannels}</span>
+                <span className="sm:hidden">{audioBuffer.sampleRate}Hz | {audioBuffer.numberOfChannels}ch</span>
               </div>
             </div>
             {/* Progress Bar */}
@@ -495,22 +500,22 @@ export const AudioEditorPanel = () => {
 
         {/* Playback Controls */}
         {audioBuffer && (
-          <div className="flex items-center gap-2 mt-4">
+          <div className="flex items-center gap-2 sm:gap-3 mt-4 justify-center sm:justify-start">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handlePlay}
-              className="p-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white"
+              className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white"
             >
-              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              {isPlaying ? <Pause className="w-4 h-4 sm:w-5 sm:h-5" /> : <Play className="w-4 h-4 sm:w-5 sm:h-5" />}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleStop}
-              className="p-2 rounded-lg bg-red-500 text-white"
+              className="p-2 sm:p-2.5 rounded-lg bg-red-500 text-white"
             >
-              <Square className="w-5 h-5" />
+              <Square className="w-4 h-4 sm:w-5 sm:h-5" />
             </motion.button>
           </div>
         )}
@@ -518,28 +523,28 @@ export const AudioEditorPanel = () => {
 
       {/* Voice Style Selection */}
       {audioBuffer && (
-        <div className="glass-strong rounded-2xl p-6 border border-dark-border/50">
+        <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-purple-400" />
-            <h3 className="text-xl font-semibold gradient-text">Voice Style</h3>
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Voice Style</h3>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {voiceStyles.map((style) => (
               <motion.button
                 key={style.id}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => applyVoiceStyle(style.id)}
-                className={`flex flex-col items-center gap-2 p-4 rounded-lg border transition-all ${
+                className={`flex flex-col items-center gap-1 sm:gap-2 p-2 sm:p-4 rounded-lg border transition-all ${
                   selectedVoiceStyle === style.id
                     ? 'border-purple-500 bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/30'
                     : 'border-dark-border/50 glass text-dark-textSecondary hover:border-purple-500/50'
                 }`}
                 title={style.description}
               >
-                <div className="text-2xl mb-1">{style.icon}</div>
-                <div className="text-sm font-semibold">{style.name}</div>
+                <div className="text-xl sm:text-2xl mb-0.5 sm:mb-1">{style.icon}</div>
+                <div className="text-xs sm:text-sm font-semibold text-center">{style.name}</div>
               </motion.button>
             ))}
           </div>
@@ -548,21 +553,21 @@ export const AudioEditorPanel = () => {
 
       {/* Audio Editing Tools */}
       {audioBuffer && (
-        <div className="glass-strong rounded-2xl p-6 border border-dark-border/50">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold gradient-text">Audio Editing</h3>
+        <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Audio Editing</h3>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleResetSettings}
-              className="flex items-center gap-2 px-4 py-2 glass border border-dark-border/50 rounded-lg hover:border-orange-500/50 text-dark-textSecondary hover:text-orange-400 transition-all"
+              className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-lg hover:border-orange-500/50 text-dark-textSecondary hover:text-orange-400 transition-all w-full sm:w-auto justify-center sm:justify-start"
             >
-              <RotateCcw className="w-4 h-4" />
-              <span className="text-sm font-medium">Reset Settings</span>
+              <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-medium">Reset Settings</span>
             </motion.button>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Normalize */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -676,7 +681,7 @@ export const AudioEditorPanel = () => {
 
             {/* Trim */}
             {audioBuffer && (
-              <div className="flex flex-col gap-2 p-4 glass border border-dark-border/50 rounded-lg col-span-2">
+              <div className="flex flex-col gap-2 p-3 sm:p-4 glass border border-dark-border/50 rounded-lg sm:col-span-2">
                 <div className="flex items-center gap-2 mb-2">
                   <Scissors className="w-5 h-5 text-orange-400" />
                   <span className="text-sm font-medium">Trim (seconds)</span>
@@ -723,10 +728,10 @@ export const AudioEditorPanel = () => {
 
       {/* PCM Export Settings */}
       {audioBuffer && (
-        <div className="glass-strong rounded-2xl p-6 border border-dark-border/50">
-          <h3 className="text-xl font-semibold gradient-text mb-4">PCM Export Settings</h3>
+        <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
+          <h3 className="text-lg sm:text-xl font-semibold gradient-text mb-4">PCM Export Settings</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
               <label className="block text-sm font-medium text-dark-textSecondary mb-2">
                 Sample Rate
@@ -786,7 +791,7 @@ export const AudioEditorPanel = () => {
           </div>
 
           {/* Export Buttons */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
