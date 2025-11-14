@@ -4,8 +4,11 @@ A modern, advanced text-to-speech (TTS) platform built with React, TypeScript, T
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/TMNPThennakoon/Text-to-Voice-Generator)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://TMNPThennakoon.github.io/Text-to-Voice-Generator/)
 
 **Repository:** [https://github.com/TMNPThennakoon/Text-to-Voice-Generator](https://github.com/TMNPThennakoon/Text-to-Voice-Generator)
+
+**🌐 Live Demo:** [https://TMNPThennakoon.github.io/Text-to-Voice-Generator/](https://TMNPThennakoon.github.io/Text-to-Voice-Generator/)
 
 ## ✨ Features
 
