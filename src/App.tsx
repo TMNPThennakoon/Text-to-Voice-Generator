@@ -221,7 +221,7 @@ function App() {
 
         <div className={`grid grid-cols-1 ${activeTab !== 'audio-editor' ? 'lg:grid-cols-4' : ''} gap-4 sm:gap-6`}>
           {/* Left Column - Main Content (3 columns) */}
-          <div className={`${activeTab !== 'audio-editor' ? 'lg:col-span-3' : 'lg:col-span-full'} space-y-4 sm:space-y-6 order-1`}>
+          <div className={`${activeTab !== 'audio-editor' ? 'lg:col-span-3' : 'lg:col-span-full'} space-y-4 sm:space-y-6 ${activeTab !== 'audio-editor' ? 'order-2 lg:order-1' : ''}`}>
             {/* Tab Content */}
             {activeTab === 'text' && (
               <motion.div
@@ -359,7 +359,7 @@ function App() {
 
           {/* Right Column - Voice Controls (1 column) - Hidden on audio-editor tab */}
           {activeTab !== 'audio-editor' && (
-            <div className="space-y-4 sm:space-y-6 order-2 lg:order-2">
+            <div className={`space-y-4 sm:space-y-6 ${activeTab === 'text' ? 'order-1 lg:order-2' : 'hidden lg:block lg:order-2'}`}>
               <VoiceControls
                 settings={settings}
                 availableVoices={availableVoices}
