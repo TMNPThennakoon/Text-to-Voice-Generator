@@ -59,7 +59,7 @@ function App() {
     clearTranscript,
   } = useSpeechToText();
 
-  const [activeTab, setActiveTab] = useState<'text' | 'translate' | 'speech'>('text');
+  const [activeTab, setActiveTab] = useState<'text' | 'translate' | 'speech' | 'audio-editor'>('text');
   const [showFormatModal, setShowFormatModal] = useState(false);
 
   const headerRef = useRef<HTMLDivElement>(null);
@@ -104,8 +104,6 @@ function App() {
   const handleFormatSelect = async (format: AudioFormat) => {
     try {
       await downloadAudio(text, settings, format);
-      // Show success message
-      const formatName = format.toUpperCase();
       // Success will be handled by the download
     } catch (error: any) {
       console.error('Download failed:', error);
