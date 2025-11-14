@@ -59,7 +59,7 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <Music className="w-5 h-5 text-blue-400" />
-                    <h3 className="text-xl font-semibold gradient-text">Select Audio Format</h3>
+                    <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Select Audio Format</h3>
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.1, rotate: 90 }}
@@ -67,7 +67,7 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
                     onClick={onClose}
                     className="p-2 hover:bg-dark-hover rounded-lg transition-colors"
                   >
-                    <X className="w-5 h-5 text-dark-textSecondary" />
+                    <X className="w-6 h-6 text-dark-textSecondary" />
                   </motion.button>
                 </div>
 
@@ -85,21 +85,21 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
                           : 'border-dark-border/50 glass hover:border-blue-500/50'
                       }`}
                     >
-                      <div className="text-2xl">{format.icon}</div>
+                      <div className="text-3xl">{format.icon}</div>
                       <div className="flex-1 text-left">
                         <div className="flex items-center gap-2">
-                          <FileAudio className="w-4 h-4 text-dark-textSecondary" />
-                          <span className="font-semibold text-dark-text">{format.label}</span>
+                          <FileAudio className="w-5 h-5 text-dark-textSecondary" />
+                          <span className="text-base font-semibold text-dark-text">{format.label}</span>
                         </div>
-                        <p className="text-xs text-dark-textSecondary mt-1">{format.description}</p>
+                        <p className="text-sm text-dark-textSecondary mt-1">{format.description}</p>
                       </div>
                       {selectedFormat === format.value && (
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center"
+                          className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center"
                         >
-                          <div className="w-2 h-2 rounded-full bg-white" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-white" />
                         </motion.div>
                       )}
                     </motion.button>
@@ -112,7 +112,7 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onClose}
-                    className="flex-1 px-4 py-3 glass border border-dark-border/50 rounded-lg text-dark-text font-semibold transition-all hover:border-dark-border"
+                    className="flex-1 px-4 py-3 glass border border-dark-border/50 rounded-lg text-base text-dark-text font-semibold transition-all hover:border-dark-border"
                   >
                     Cancel
                   </motion.button>
@@ -120,7 +120,7 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleConfirm}
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all shadow-lg shadow-blue-500/50"
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white text-base font-semibold rounded-lg transition-all shadow-lg shadow-blue-500/50"
                   >
                     Download {selectedFormat.toUpperCase()}
                   </motion.button>

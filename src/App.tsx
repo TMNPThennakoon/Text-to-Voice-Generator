@@ -168,8 +168,8 @@ function App() {
                 <Volume2 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </motion.div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-base sm:text-xl md:text-2xl font-bold gradient-text truncate">Text to Voice Generator</h1>
-                <p className="text-xs sm:text-sm text-dark-textSecondary hidden sm:block">Advanced TTS Platform - Free & Open Source</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold gradient-text truncate">Text to Voice Generator</h1>
+                <p className="text-sm sm:text-base text-dark-textSecondary hidden sm:block">Advanced TTS Platform - Free & Open Source</p>
               </div>
             </motion.div>
             <motion.div
@@ -178,7 +178,7 @@ function App() {
               className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-xl flex-shrink-0"
             >
               <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
-              <span className="text-xs sm:text-sm text-dark-text font-medium hidden xs:inline">100% Free</span>
+              <span className="text-sm sm:text-base text-dark-text font-medium hidden xs:inline">100% Free</span>
             </motion.div>
           </div>
         </div>
@@ -205,7 +205,7 @@ function App() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
+                className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-dark-accent via-purple-500 to-pink-500 text-white shadow-lg'
                     : 'text-dark-textSecondary hover:bg-dark-hover'
@@ -248,7 +248,7 @@ function App() {
                 >
                   <div className="flex items-center gap-2 mb-4">
                     <Waves className="w-5 h-5 text-dark-accent" />
-                    <h3 className="text-lg font-semibold gradient-text">Audio Visualizer</h3>
+                    <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Audio Visualizer</h3>
                   </div>
                   <AudioVisualizer 
                     isPlaying={isPlaying && !isPaused} 
@@ -380,13 +380,13 @@ function App() {
         <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
           <div className="text-center space-y-1 sm:space-y-2">
             <div className="pt-2">
-              <p className="text-xs sm:text-sm font-semibold text-dark-text">
+              <p className="text-sm sm:text-base font-semibold text-dark-text">
                 Developed by <span className="gradient-text">Nayana Pabasara</span>
               </p>
-              <p className="text-[10px] sm:text-xs text-dark-textSecondary mt-1">
+              <p className="text-xs sm:text-sm text-dark-textSecondary mt-1">
                 Instrumentation and Automation Engineering Technology Student
               </p>
-              <p className="text-[10px] sm:text-xs text-dark-textSecondary">
+              <p className="text-xs sm:text-sm text-dark-textSecondary">
                 University of Colombo
               </p>
             </div>

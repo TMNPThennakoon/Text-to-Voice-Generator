@@ -55,7 +55,7 @@ export const ProgressIndicator = ({ isPlaying, text, rate }: ProgressIndicatorPr
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-xs text-dark-textSecondary mt-1 text-center"
+          className="text-sm text-dark-textSecondary mt-1 text-center font-medium"
         >
           {Math.round(progress)}% complete
         </motion.p>

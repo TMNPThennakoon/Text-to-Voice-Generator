@@ -96,7 +96,7 @@ export const TranslationPanel = ({
             >
               <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
             </motion.div>
-            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Translate Text</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Translate Text</h3>
           </motion.div>
           {(translatedText || localText) && (
             <motion.button
@@ -122,7 +122,7 @@ export const TranslationPanel = ({
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleUseMainText}
-                      className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                      className="text-sm text-blue-400 hover:text-blue-300 transition-colors font-medium"
                     >
                       Use Main Text
                     </motion.button>
@@ -142,9 +142,9 @@ export const TranslationPanel = ({
                       setUseLocalText(true);
                     }}
                     placeholder="Enter text to translate..."
-                    className="w-full h-[200px] bg-transparent border-none outline-none text-dark-text placeholder-dark-textSecondary resize-none scrollbar-hide"
+                    className="w-full h-[200px] bg-transparent border-none outline-none text-base text-dark-text placeholder-dark-textSecondary resize-none scrollbar-hide"
                   />
-                  <div className="flex items-center justify-between text-xs text-dark-textSecondary mt-2 pt-2 border-t border-dark-border/30">
+                  <div className="flex items-center justify-between text-sm text-dark-textSecondary mt-2 pt-2 border-t border-dark-border/30">
                     <span>{localText.length} characters</span>
                     {localText.length > 0 && (
                       <motion.button
@@ -209,19 +209,19 @@ export const TranslationPanel = ({
                     </div>
                   ) : translatedText ? (
                     <>
-                      <p className="w-full h-[200px] text-dark-text whitespace-pre-wrap break-words overflow-y-auto scrollbar-hide">
+                      <p className="w-full h-[200px] text-base text-dark-text whitespace-pre-wrap break-words overflow-y-auto scrollbar-hide">
                         {translatedText}
                       </p>
                     </>
                   ) : (
                     <div className="flex items-center justify-center h-[200px]">
-                      <p className="text-dark-textSecondary text-sm text-center">
+                      <p className="text-dark-textSecondary text-base text-center">
                         Translation will appear here
                       </p>
                     </div>
                   )}
                   {translatedText && (
-                    <div className="flex items-center justify-between text-xs text-dark-textSecondary mt-2 pt-2 border-t border-dark-border/30">
+                    <div className="flex items-center justify-between text-sm text-dark-textSecondary mt-2 pt-2 border-t border-dark-border/30">
                       <span>{translatedText.length} characters</span>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
@@ -245,7 +245,7 @@ export const TranslationPanel = ({
             whileTap={{ scale: 0.98 }}
             onClick={handleTranslate}
             disabled={(!originalText.trim() && !localText.trim()) || isTranslating}
-            className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/50 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/50 flex items-center justify-center gap-2 text-base sm:text-lg"
           >
             {isTranslating ? (
               <>
@@ -253,13 +253,13 @@ export const TranslationPanel = ({
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                 >
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
                 </motion.div>
                 Translating...
               </>
             ) : (
               <>
-                <RefreshCw className="w-5 h-5" />
+                <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6" />
                 Translate {sourceLanguage?.flag} → {targetLanguage?.flag}
               </>
             )}
@@ -275,7 +275,7 @@ export const TranslationPanel = ({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onUseTranslation(translatedText)}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-green-500/50"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-green-500/50 text-base sm:text-lg"
               >
                 Use Translated Text in Main Editor
               </motion.button>
@@ -288,7 +288,7 @@ export const TranslationPanel = ({
             animate={{ opacity: 1 }}
             className="glass border border-green-500/30 rounded-lg p-3 bg-green-500/10"
           >
-            <p className="text-xs text-green-400 text-center">
+            <p className="text-sm text-green-400 text-center">
               ✨ Special Feature: Unlimited translations with unlimited character support. No limits to use.
             </p>
           </motion.div>

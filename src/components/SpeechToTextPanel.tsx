@@ -57,7 +57,7 @@ export const SpeechToTextPanel = ({
       >
         <div className="flex items-center gap-3 text-yellow-400">
           <AlertCircle className="w-5 h-5" />
-          <p className="text-sm">Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.</p>
+          <p className="text-base">Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.</p>
         </div>
       </motion.div>
     );
@@ -82,7 +82,7 @@ export const SpeechToTextPanel = ({
             whileHover={{ scale: 1.05 }}
           >
             <Mic className="w-5 h-5 text-green-400" />
-            <h3 className="text-xl font-semibold gradient-text">Voice to Text</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Voice to Text</h3>
           </motion.div>
           {(transcript || error) && (
             <motion.button
@@ -132,7 +132,7 @@ export const SpeechToTextPanel = ({
             transition={{ duration: 1, repeat: isListening ? Infinity : 0 }}
             className="text-center"
           >
-            <p className="text-sm font-semibold text-dark-text">
+            <p className="text-base font-semibold text-dark-text">
               {isListening ? (
                 <span className="text-green-400 flex items-center justify-center gap-2">
                   <motion.span
@@ -156,9 +156,9 @@ export const SpeechToTextPanel = ({
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 flex items-center gap-2 text-red-400 text-sm"
+                className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 flex items-center gap-2 text-red-400 text-base"
               >
-                <AlertCircle className="w-4 h-4" />
+                <AlertCircle className="w-5 h-5" />
                 {error}
               </motion.div>
             )}
@@ -175,10 +175,10 @@ export const SpeechToTextPanel = ({
               >
                 <div className="glass border border-dark-border/50 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Mic className="w-4 h-4 text-green-400" />
-                    <span className="text-xs font-semibold text-green-400">Transcript</span>
+                    <Mic className="w-5 h-5 text-green-400" />
+                    <span className="text-sm font-semibold text-green-400">Transcript</span>
                   </div>
-                  <p className="text-dark-text whitespace-pre-wrap break-words">{finalTranscript}</p>
+                  <p className="text-base text-dark-text whitespace-pre-wrap break-words">{finalTranscript}</p>
                 </div>
 
                 {/* Action Buttons */}
@@ -195,16 +195,16 @@ export const SpeechToTextPanel = ({
                         console.error('Failed to copy:', error);
                       }
                     }}
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-500/50"
+                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-500/50 text-base"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4" />
+                        <Check className="w-5 h-5" />
                         Copied!
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-5 h-5" />
                         Copy
                       </>
                     )}
@@ -224,9 +224,9 @@ export const SpeechToTextPanel = ({
                       document.body.removeChild(a);
                       URL.revokeObjectURL(url);
                     }}
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-blue-500/50"
+                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-blue-500/50 text-base"
                   >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-5 h-5" />
                     Download
                   </motion.button>
                 </div>
@@ -235,7 +235,7 @@ export const SpeechToTextPanel = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => onUseTranscript(finalTranscript)}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-green-500/50"
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-green-500/50 text-base"
                 >
                   Use Transcript in Main Editor
                 </motion.button>

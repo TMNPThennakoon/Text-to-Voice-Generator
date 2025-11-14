@@ -62,17 +62,17 @@ export const LanguageSelector = ({ value, onChange, label, placeholder = 'Search
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <label className="text-sm font-semibold text-dark-textSecondary mb-2 block">{label}</label>
+      <label className="text-base font-semibold text-dark-textSecondary mb-2 block">{label}</label>
       <motion.button
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.99 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full glass border border-dark-border/50 rounded-lg px-3 py-2 text-sm text-dark-text focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-medium flex items-center justify-between"
+        className="w-full glass border border-dark-border/50 rounded-lg px-4 py-3 text-base text-dark-text focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-medium flex items-center justify-between"
       >
         <span className="flex items-center gap-2">
           {selectedLanguage?.flag} {selectedLanguage?.name}
         </span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </motion.button>
 
       <AnimatePresence>
@@ -97,14 +97,14 @@ export const LanguageSelector = ({ value, onChange, label, placeholder = 'Search
               {/* Search Input */}
               <div className="p-3 border-b border-dark-border/30">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-dark-textSecondary" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-dark-textSecondary" />
                   <input
                     ref={searchInputRef}
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={placeholder}
-                    className="w-full glass border border-dark-border/50 rounded-lg px-10 py-2 text-sm text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
+                    className="w-full glass border border-dark-border/50 rounded-lg px-11 py-3 text-base text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
                   />
                   {searchQuery && (
                     <motion.button
@@ -115,7 +115,7 @@ export const LanguageSelector = ({ value, onChange, label, placeholder = 'Search
                       onClick={() => setSearchQuery('')}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-dark-textSecondary hover:text-dark-text"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-5 h-5" />
                     </motion.button>
                   )}
                 </div>
@@ -124,7 +124,7 @@ export const LanguageSelector = ({ value, onChange, label, placeholder = 'Search
               {/* Language List */}
               <div className="max-h-60 overflow-y-auto scrollbar-hide">
                 {filteredLanguages.length === 0 ? (
-                  <div className="p-4 text-center text-dark-textSecondary text-sm">
+                  <div className="p-4 text-center text-dark-textSecondary text-base">
                     No languages found
                   </div>
                 ) : (
@@ -133,16 +133,16 @@ export const LanguageSelector = ({ value, onChange, label, placeholder = 'Search
                       key={lang.code}
                       whileHover={{ backgroundColor: 'rgba(99, 102, 241, 0.1)' }}
                       onClick={() => handleSelect(lang.code)}
-                      className={`w-full px-4 py-2.5 text-left text-sm transition-colors flex items-center gap-3 ${
+                      className={`w-full px-4 py-3 text-left text-base transition-colors flex items-center gap-3 ${
                         value === lang.code
                           ? 'bg-blue-500/20 text-blue-400'
                           : 'text-dark-text hover:bg-dark-hover'
                       }`}
                     >
-                      <span className="text-lg">{lang.flag}</span>
+                      <span className="text-xl">{lang.flag}</span>
                       <div className="flex-1">
                         <div className="font-medium">{lang.name}</div>
-                        <div className="text-xs text-dark-textSecondary">{lang.country}</div>
+                        <div className="text-sm text-dark-textSecondary">{lang.country}</div>
                       </div>
                       {value === lang.code && (
                         <motion.div

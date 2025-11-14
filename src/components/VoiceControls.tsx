@@ -133,7 +133,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
           >
             <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
           </motion.div>
-          <h3 className="text-lg sm:text-xl font-semibold gradient-text">Voice Settings</h3>
+          <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Voice Settings</h3>
         </motion.div>
         
         <div className="space-y-4 sm:space-y-6">
@@ -145,8 +145,8 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
             className="glass border border-dark-border/50 rounded-xl p-3 sm:p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
-              <label className="text-xs sm:text-sm font-semibold text-dark-text">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+              <label className="text-sm sm:text-base font-semibold text-dark-text">
                 Voice Style
               </label>
             </div>
@@ -157,15 +157,15 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleStyleChange(style.id)}
-                  className={`p-1.5 sm:p-2.5 rounded-lg border transition-all flex flex-col items-center justify-center h-[60px] sm:h-[70px] overflow-hidden ${
+                  className={`p-2 sm:p-3 rounded-lg border transition-all flex flex-col items-center justify-center h-[70px] sm:h-[80px] overflow-hidden ${
                     selectedStyle === style.id
                       ? 'border-purple-500 bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/30'
                       : 'border-dark-border/50 glass text-dark-textSecondary hover:border-purple-500/50'
                   }`}
                   title={style.description}
                 >
-                  <div className="text-base sm:text-xl mb-0.5 sm:mb-1.5 leading-none flex-shrink-0">{style.icon}</div>
-                  <div className="text-[9px] sm:text-[10px] font-semibold leading-tight text-center w-full px-0.5 sm:px-1 line-clamp-2 overflow-hidden">
+                  <div className="text-xl sm:text-2xl mb-1 sm:mb-1.5 leading-none flex-shrink-0">{style.icon}</div>
+                  <div className="text-[10px] sm:text-xs font-semibold leading-tight text-center w-full px-0.5 sm:px-1 line-clamp-2 overflow-hidden">
                     {style.name}
                   </div>
                 </motion.button>
@@ -179,17 +179,17 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <label className="block text-sm font-medium text-dark-textSecondary mb-2">
+            <label className="block text-base font-medium text-dark-textSecondary mb-2">
               Voice
             </label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-dark-textSecondary" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-dark-textSecondary" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search voices..."
-                className="w-full glass border border-dark-border/50 rounded-lg pl-10 pr-10 py-2.5 text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 transition-all"
+                className="w-full glass border border-dark-border/50 rounded-lg pl-11 pr-11 py-3 text-base text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 transition-all"
               />
               {searchQuery && (
                 <motion.button
@@ -200,12 +200,12 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-dark-textSecondary hover:text-dark-text"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </motion.button>
               )}
             </div>
             {searchQuery && (
-              <p className="text-xs text-dark-textSecondary mt-1">
+              <p className="text-sm text-dark-textSecondary mt-1">
                 {filteredVoices.length} voice{filteredVoices.length !== 1 ? 's' : ''} found
               </p>
             )}
@@ -216,7 +216,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                 const voice = filteredVoices.find(v => v.name === e.target.value);
                 onSettingsChange({ voice: voice || null });
               }}
-              className="w-full glass border border-dark-border/50 rounded-lg px-4 py-2.5 text-dark-text focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 transition-all mt-2"
+              className="w-full glass border border-dark-border/50 rounded-lg px-4 py-3 text-base text-dark-text focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 transition-all mt-2"
             >
               {Object.keys(groupedVoices).length === 0 ? (
                 <option value="">No voices found</option>
@@ -242,14 +242,14 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
           >
             <div className="flex items-center justify-between mb-2">
               <motion.label 
-                className="flex items-center gap-2 text-sm font-medium text-dark-textSecondary"
+                className="flex items-center gap-2 text-base font-medium text-dark-textSecondary"
                 whileHover={{ scale: 1.05 }}
               >
-                <Gauge className="w-4 h-4 text-dark-accent" />
+                <Gauge className="w-5 h-5 text-dark-accent" />
                 Speed
               </motion.label>
               <motion.span 
-                className="text-sm font-semibold text-dark-accent px-2 py-1 rounded bg-dark-surface/50"
+                className="text-base font-semibold text-dark-accent px-3 py-1.5 rounded bg-dark-surface/50"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.3 }}
                 key={settings.rate}
@@ -270,7 +270,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                   background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${((settings.rate - 0.5) / 1.5) * 100}%, #2a2a2a ${((settings.rate - 0.5) / 1.5) * 100}%, #2a2a2a 100%)`
                 }}
               />
-              <div className="flex justify-between text-xs text-dark-textSecondary mt-1">
+              <div className="flex justify-between text-sm text-dark-textSecondary mt-1">
                 <span>0.5x</span>
                 <span>1.0x</span>
                 <span>2.0x</span>
@@ -286,14 +286,14 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
           >
             <div className="flex items-center justify-between mb-2">
               <motion.label 
-                className="flex items-center gap-2 text-sm font-medium text-dark-textSecondary"
+                className="flex items-center gap-2 text-base font-medium text-dark-textSecondary"
                 whileHover={{ scale: 1.05 }}
               >
-                <TrendingUp className="w-4 h-4 text-purple-500" />
+                <TrendingUp className="w-5 h-5 text-purple-500" />
                 Pitch
               </motion.label>
               <motion.span 
-                className="text-sm font-semibold text-purple-500 px-2 py-1 rounded bg-dark-surface/50"
+                className="text-base font-semibold text-purple-500 px-3 py-1.5 rounded bg-dark-surface/50"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.3 }}
                 key={settings.pitch}
@@ -314,7 +314,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                   background: `linear-gradient(to right, #9333ea 0%, #9333ea ${((settings.pitch - 0.5) / 1.5) * 100}%, #2a2a2a ${((settings.pitch - 0.5) / 1.5) * 100}%, #2a2a2a 100%)`
                 }}
               />
-              <div className="flex justify-between text-xs text-dark-textSecondary mt-1">
+              <div className="flex justify-between text-sm text-dark-textSecondary mt-1">
                 <span>Low</span>
                 <span>Normal</span>
                 <span>High</span>
@@ -330,14 +330,14 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
           >
             <div className="flex items-center justify-between mb-2">
               <motion.label 
-                className="flex items-center gap-2 text-sm font-medium text-dark-textSecondary"
+                className="flex items-center gap-2 text-base font-medium text-dark-textSecondary"
                 whileHover={{ scale: 1.05 }}
               >
-                <Volume2 className="w-4 h-4 text-pink-500" />
+                <Volume2 className="w-5 h-5 text-pink-500" />
                 Volume
               </motion.label>
               <motion.span 
-                className="text-sm font-semibold text-pink-500 px-2 py-1 rounded bg-dark-surface/50"
+                className="text-base font-semibold text-pink-500 px-3 py-1.5 rounded bg-dark-surface/50"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.3 }}
                 key={Math.round(settings.volume * 100)}
@@ -358,7 +358,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                   background: `linear-gradient(to right, #ec4899 0%, #ec4899 ${settings.volume * 100}%, #2a2a2a ${settings.volume * 100}%, #2a2a2a 100%)`
                 }}
               />
-              <div className="flex justify-between text-xs text-dark-textSecondary mt-1">
+              <div className="flex justify-between text-sm text-dark-textSecondary mt-1">
                 <span>0%</span>
                 <span>50%</span>
                 <span>100%</span>

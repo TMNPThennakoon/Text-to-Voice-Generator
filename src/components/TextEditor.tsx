@@ -97,7 +97,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
             >
               <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
             </motion.div>
-            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Text Input</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Text Input</h3>
           </motion.div>
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <input
@@ -111,9 +111,9 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
               htmlFor="file-upload"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-lg text-xs sm:text-sm text-dark-text cursor-pointer transition-all hover:border-dark-accent/50 flex-1 sm:flex-initial justify-center"
+              className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-lg text-sm sm:text-base text-dark-text cursor-pointer transition-all hover:border-dark-accent/50 flex-1 sm:flex-initial justify-center"
             >
-              <Upload className="w-3 h-3 sm:w-4 sm:h-4" />
+              <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Upload .txt</span>
               <span className="sm:hidden">Upload</span>
             </motion.label>
@@ -141,7 +141,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
             value={text}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Enter your text here... You can type or paste any text you want to convert to speech."
-            className="w-full h-48 sm:h-64 glass border border-dark-border/50 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 resize-none scrollbar-hide transition-all"
+            className="w-full h-48 sm:h-64 glass border border-dark-border/50 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 resize-none scrollbar-hide transition-all"
           />
           
           {/* Shimmer effect on focus */}
@@ -176,7 +176,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
         </AnimatePresence>
 
         <motion.div 
-          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mt-4 text-xs sm:text-sm text-dark-textSecondary"
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mt-4 text-sm sm:text-base text-dark-textSecondary"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -184,19 +184,19 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
             <motion.span 
               whileHover={{ scale: 1.1, color: '#6366f1' }}
-              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
+              className="px-3 py-1.5 rounded bg-dark-surface/50 whitespace-nowrap font-medium"
             >
               {charCount} chars
             </motion.span>
             <motion.span 
               whileHover={{ scale: 1.1, color: '#9333ea' }}
-              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
+              className="px-3 py-1.5 rounded bg-dark-surface/50 whitespace-nowrap font-medium"
             >
               {wordCount} words
             </motion.span>
             <motion.span 
               whileHover={{ scale: 1.1, color: '#ec4899' }}
-              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
+              className="px-3 py-1.5 rounded bg-dark-surface/50 whitespace-nowrap font-medium"
             >
               ~{estimatedTime.toFixed(1)}s
             </motion.span>
