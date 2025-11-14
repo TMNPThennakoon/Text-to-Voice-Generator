@@ -115,7 +115,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="glass-strong rounded-2xl p-6 border border-dark-border/50 relative overflow-hidden"
+      className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 relative overflow-hidden"
     >
       {/* Animated gradient border */}
       <div className="absolute inset-0 rounded-2xl opacity-20">
@@ -124,48 +124,48 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
 
       <div className="relative z-10">
         <motion.div 
-          className="flex items-center gap-2 mb-6"
+          className="flex items-center gap-2 mb-4 sm:mb-6"
           whileHover={{ scale: 1.05 }}
         >
           <motion.div
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Mic className="w-5 h-5 text-dark-accent" />
+            <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
           </motion.div>
-          <h3 className="text-xl font-semibold gradient-text">Voice Settings</h3>
+          <h3 className="text-lg sm:text-xl font-semibold gradient-text">Voice Settings</h3>
         </motion.div>
         
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Voice Style Presets */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="glass border border-dark-border/50 rounded-xl p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+            className="glass border border-dark-border/50 rounded-xl p-3 sm:p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <label className="text-sm font-semibold text-dark-text">
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+              <label className="text-xs sm:text-sm font-semibold text-dark-text">
                 Voice Style
               </label>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 sm:grid-cols-4 gap-1.5 sm:gap-2">
               {VOICE_STYLES.map((style) => (
                 <motion.button
                   key={style.id}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleStyleChange(style.id)}
-                  className={`p-2.5 rounded-lg border transition-all flex flex-col items-center justify-center h-[70px] overflow-hidden ${
+                  className={`p-1.5 sm:p-2.5 rounded-lg border transition-all flex flex-col items-center justify-center h-[60px] sm:h-[70px] overflow-hidden ${
                     selectedStyle === style.id
                       ? 'border-purple-500 bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/30'
                       : 'border-dark-border/50 glass text-dark-textSecondary hover:border-purple-500/50'
                   }`}
                   title={style.description}
                 >
-                  <div className="text-xl mb-1.5 leading-none flex-shrink-0">{style.icon}</div>
-                  <div className="text-[10px] font-semibold leading-tight text-center w-full px-1 line-clamp-2 overflow-hidden">
+                  <div className="text-base sm:text-xl mb-0.5 sm:mb-1.5 leading-none flex-shrink-0">{style.icon}</div>
+                  <div className="text-[9px] sm:text-[10px] font-semibold leading-tight text-center w-full px-0.5 sm:px-1 line-clamp-2 overflow-hidden">
                     {style.name}
                   </div>
                 </motion.button>

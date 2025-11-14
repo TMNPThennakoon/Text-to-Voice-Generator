@@ -32,7 +32,7 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="glass-strong rounded-2xl p-6 border border-dark-border/50 relative overflow-hidden"
+      className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 relative overflow-hidden"
     >
       {/* Animated gradient border */}
       <div className="absolute inset-0 rounded-2xl opacity-20">
@@ -40,7 +40,7 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
       </div>
 
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 mb-4">
           <motion.div 
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
@@ -49,11 +49,11 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
               animate={{ rotate: [0, -15, 15, 0] }}
               transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
             >
-              <History className="w-5 h-5 text-dark-accent" />
+              <History className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
             </motion.div>
-            <h3 className="text-xl font-semibold gradient-text">History</h3>
+            <h3 className="text-lg sm:text-xl font-semibold gradient-text">History</h3>
             <motion.span 
-              className="text-sm text-dark-textSecondary px-2 py-1 rounded bg-dark-surface/50"
+              className="text-xs sm:text-sm text-dark-textSecondary px-2 py-1 rounded bg-dark-surface/50"
               animate={{ scale: history.length > 0 ? [1, 1.1, 1] : 1 }}
               transition={{ duration: 0.5 }}
             >
@@ -65,7 +65,7 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onClear}
-              className="text-sm text-red-400 hover:text-red-300 transition-colors px-3 py-1 rounded border border-red-400/30 hover:bg-red-400/10"
+              className="text-xs sm:text-sm text-red-400 hover:text-red-300 transition-colors px-2 sm:px-3 py-1 rounded border border-red-400/30 hover:bg-red-400/10 whitespace-nowrap"
             >
               Clear All
             </motion.button>

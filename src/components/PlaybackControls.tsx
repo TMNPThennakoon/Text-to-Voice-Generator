@@ -92,7 +92,7 @@ export const PlaybackControls = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="flex items-center gap-4"
+      className="flex items-center gap-2 sm:gap-4 justify-center sm:justify-start"
     >
       {/* Main Play/Pause Button with Ripple Effect */}
       <div className="relative">
@@ -102,7 +102,7 @@ export const PlaybackControls = ({
           whileTap={{ scale: 0.95 }}
           onClick={() => handleButtonClick(handlePlayPause)}
           disabled={disabled}
-          className="relative bg-gradient-to-r from-dark-accent via-purple-500 to-pink-500 hover:from-dark-accentHover hover:via-purple-600 hover:to-pink-600 text-white rounded-full p-4 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-dark-accent/50 overflow-hidden group"
+          className="relative bg-gradient-to-r from-dark-accent via-purple-500 to-pink-500 hover:from-dark-accentHover hover:via-purple-600 hover:to-pink-600 text-white rounded-full p-3 sm:p-4 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-dark-accent/50 overflow-hidden group"
         >
           <div
             ref={rippleRef}
@@ -119,9 +119,9 @@ export const PlaybackControls = ({
             }}
           >
             {isPlaying && !isPaused ? (
-              <Pause className="w-6 h-6 relative z-10" />
+              <Pause className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
             ) : (
-              <Play className="w-6 h-6 ml-1 relative z-10" />
+              <Play className="w-5 h-5 sm:w-6 sm:h-6 ml-0.5 sm:ml-1 relative z-10" />
             )}
           </motion.div>
         </motion.button>
@@ -133,9 +133,9 @@ export const PlaybackControls = ({
         whileTap={{ scale: 0.95 }}
         onClick={() => handleButtonClick(onStop)}
         disabled={disabled || (!isPlaying && !isPaused)}
-        className="glass border border-dark-border text-dark-text rounded-full p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-dark-accent/50"
+        className="glass border border-dark-border text-dark-text rounded-full p-2.5 sm:p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-dark-accent/50"
       >
-        <Square className="w-5 h-5" />
+        <Square className="w-4 h-4 sm:w-5 sm:h-5" />
       </motion.button>
 
       {/* Download Button */}
@@ -144,9 +144,9 @@ export const PlaybackControls = ({
         whileTap={{ scale: 0.95 }}
         onClick={() => handleButtonClick(onDownload)}
         disabled={disabled}
-        className="glass border border-dark-border text-dark-text rounded-full p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-dark-accent/50"
+        className="glass border border-dark-border text-dark-text rounded-full p-2.5 sm:p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-dark-accent/50"
       >
-        <Download className="w-5 h-5" />
+        <Download className="w-4 h-4 sm:w-5 sm:h-5" />
       </motion.button>
     </motion.div>
   );

@@ -78,7 +78,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="glass-strong rounded-2xl p-6 border border-dark-border/50 relative overflow-hidden"
+      className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 relative overflow-hidden"
     >
       {/* Animated gradient border */}
       <div className="absolute inset-0 rounded-2xl opacity-20">
@@ -86,7 +86,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
       </div>
 
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 mb-4">
           <motion.div 
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
@@ -95,11 +95,11 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
             >
-              <FileText className="w-5 h-5 text-dark-accent" />
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
             </motion.div>
-            <h3 className="text-xl font-semibold gradient-text">Text Input</h3>
+            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Text Input</h3>
           </motion.div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <input
               type="file"
               accept=".txt"
@@ -111,10 +111,11 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
               htmlFor="file-upload"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-4 py-2 glass border border-dark-border/50 rounded-lg text-sm text-dark-text cursor-pointer transition-all hover:border-dark-accent/50"
+              className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-lg text-xs sm:text-sm text-dark-text cursor-pointer transition-all hover:border-dark-accent/50 flex-1 sm:flex-initial justify-center"
             >
-              <Upload className="w-4 h-4" />
-              Upload .txt
+              <Upload className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Upload .txt</span>
+              <span className="sm:hidden">Upload</span>
             </motion.label>
             <AnimatePresence>
               {text && (
@@ -140,7 +141,7 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
             value={text}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Enter your text here... You can type or paste any text you want to convert to speech."
-            className="w-full h-64 glass border border-dark-border/50 rounded-xl px-4 py-3 text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 resize-none scrollbar-hide transition-all"
+            className="w-full h-48 sm:h-64 glass border border-dark-border/50 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 resize-none scrollbar-hide transition-all"
           />
           
           {/* Shimmer effect on focus */}
@@ -175,27 +176,27 @@ export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: Te
         </AnimatePresence>
 
         <motion.div 
-          className="flex items-center justify-between mt-4 text-sm text-dark-textSecondary"
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mt-4 text-xs sm:text-sm text-dark-textSecondary"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
             <motion.span 
               whileHover={{ scale: 1.1, color: '#6366f1' }}
-              className="px-2 py-1 rounded bg-dark-surface/50"
+              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
             >
               {charCount} chars
             </motion.span>
             <motion.span 
               whileHover={{ scale: 1.1, color: '#9333ea' }}
-              className="px-2 py-1 rounded bg-dark-surface/50"
+              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
             >
               {wordCount} words
             </motion.span>
             <motion.span 
               whileHover={{ scale: 1.1, color: '#ec4899' }}
-              className="px-2 py-1 rounded bg-dark-surface/50"
+              className="px-2 py-1 rounded bg-dark-surface/50 whitespace-nowrap"
             >
               ~{estimatedTime.toFixed(1)}s
             </motion.span>

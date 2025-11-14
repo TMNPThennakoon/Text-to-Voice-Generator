@@ -77,7 +77,7 @@ export const TranslationPanel = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="glass-strong rounded-2xl p-6 border border-dark-border/50 relative overflow-hidden"
+      className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 relative overflow-hidden"
     >
       {/* Animated gradient border */}
       <div className="absolute inset-0 rounded-2xl opacity-20">
@@ -85,7 +85,7 @@ export const TranslationPanel = ({
       </div>
 
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 mb-4 sm:mb-6">
           <motion.div 
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
@@ -94,9 +94,9 @@ export const TranslationPanel = ({
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
             >
-              <Languages className="w-5 h-5 text-blue-400" />
+              <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
             </motion.div>
-            <h3 className="text-xl font-semibold gradient-text">Translate Text</h3>
+            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Translate Text</h3>
           </motion.div>
           {(translatedText || localText) && (
             <motion.button

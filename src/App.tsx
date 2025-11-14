@@ -151,10 +151,10 @@ function App() {
         animate={{ opacity: 1, y: 0 }}
         className="glass-strong border-b border-dark-border/50 backdrop-blur-xl sticky top-0 z-50 relative"
       >
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
             <motion.div 
-              className="flex items-center gap-3"
+              className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0"
               whileHover={{ scale: 1.02 }}
             >
               <motion.div
@@ -163,40 +163,40 @@ function App() {
                   scale: [1, 1.1, 1]
                 }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                className="bg-gradient-to-br from-dark-accent via-purple-500 to-pink-500 rounded-xl p-3 shadow-lg shadow-dark-accent/50"
+                className="bg-gradient-to-br from-dark-accent via-purple-500 to-pink-500 rounded-xl p-2 sm:p-3 shadow-lg shadow-dark-accent/50 flex-shrink-0"
               >
-                <Volume2 className="w-6 h-6 text-white" />
+                <Volume2 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </motion.div>
-              <div>
-                <h1 className="text-2xl font-bold gradient-text">Text to Voice Generator</h1>
-                <p className="text-sm text-dark-textSecondary">Advanced TTS Platform - Free & Open Source</p>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base sm:text-xl md:text-2xl font-bold gradient-text truncate">Text to Voice Generator</h1>
+                <p className="text-xs sm:text-sm text-dark-textSecondary hidden sm:block">Advanced TTS Platform - Free & Open Source</p>
               </div>
             </motion.div>
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-              className="flex items-center gap-2 px-4 py-2 glass border border-dark-border/50 rounded-xl"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-xl flex-shrink-0"
             >
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm text-dark-text font-medium">100% Free</span>
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+              <span className="text-xs sm:text-sm text-dark-text font-medium hidden xs:inline">100% Free</span>
             </motion.div>
           </div>
         </div>
       </motion.header>
 
       {/* Main Content */}
-      <main ref={containerRef} className="container mx-auto px-4 py-8 relative z-10 max-w-7xl">
+      <main ref={containerRef} className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 relative z-10 max-w-7xl">
         {/* Tab Navigation */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-2 mb-6 glass-strong rounded-xl p-1 border border-dark-border/50"
+          className="flex gap-1 sm:gap-2 mb-4 sm:mb-6 glass-strong rounded-xl p-0.5 sm:p-1 border border-dark-border/50 overflow-x-auto scrollbar-hide"
         >
           {[
-            { id: 'text', label: 'Text Input', icon: FileText },
-            { id: 'translate', label: 'Translate', icon: Languages },
-            { id: 'speech', label: 'Voice to Text', icon: Mic },
-            { id: 'audio-editor', label: 'Audio Editor', icon: Settings },
+            { id: 'text', label: 'Text Input', icon: FileText, shortLabel: 'Text' },
+            { id: 'translate', label: 'Translate', icon: Languages, shortLabel: 'Translate' },
+            { id: 'speech', label: 'Voice to Text', icon: Mic, shortLabel: 'Voice' },
+            { id: 'audio-editor', label: 'Audio Editor', icon: Settings, shortLabel: 'Editor' },
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -205,22 +205,23 @@ function App() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
+                className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-dark-accent via-purple-500 to-pink-500 text-white shadow-lg'
                     : 'text-dark-textSecondary hover:bg-dark-hover'
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                {tab.label}
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.shortLabel}</span>
               </motion.button>
             );
           })}
         </motion.div>
 
-        <div className={`grid grid-cols-1 ${activeTab !== 'audio-editor' ? 'lg:grid-cols-4' : ''} gap-6`}>
+        <div className={`grid grid-cols-1 ${activeTab !== 'audio-editor' ? 'lg:grid-cols-4' : ''} gap-4 sm:gap-6`}>
           {/* Left Column - Main Content (3 columns) */}
-          <div className={`${activeTab !== 'audio-editor' ? 'lg:col-span-3' : 'lg:col-span-full'} space-y-6`}>
+          <div className={`${activeTab !== 'audio-editor' ? 'lg:col-span-3' : 'lg:col-span-full'} space-y-4 sm:space-y-6`}>
             {/* Tab Content */}
             {activeTab === 'text' && (
               <motion.div
@@ -358,7 +359,7 @@ function App() {
 
           {/* Right Column - Voice Controls (1 column) - Hidden on audio-editor tab */}
           {activeTab !== 'audio-editor' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 order-first lg:order-last">
               <VoiceControls
                 settings={settings}
                 availableVoices={availableVoices}
@@ -374,18 +375,18 @@ function App() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="border-t border-dark-border/50 glass-strong mt-12 relative z-10"
+        className="border-t border-dark-border/50 glass-strong mt-8 sm:mt-12 relative z-10"
       >
-        <div className="container mx-auto px-4 py-6">
-          <div className="text-center space-y-2">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="text-center space-y-1 sm:space-y-2">
             <div className="pt-2">
-              <p className="text-sm font-semibold text-dark-text">
+              <p className="text-xs sm:text-sm font-semibold text-dark-text">
                 Developed by <span className="gradient-text">Nayana Pabasara</span>
               </p>
-              <p className="text-xs text-dark-textSecondary mt-1">
+              <p className="text-[10px] sm:text-xs text-dark-textSecondary mt-1">
                 Instrumentation and Automation Engineering Technology Student
               </p>
-              <p className="text-xs text-dark-textSecondary">
+              <p className="text-[10px] sm:text-xs text-dark-textSecondary">
                 University of Colombo
               </p>
             </div>

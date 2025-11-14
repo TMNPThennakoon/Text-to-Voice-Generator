@@ -47,7 +47,7 @@ export const AudioFormatModal = ({ isOpen, onClose, onSelectFormat }: AudioForma
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="glass-strong rounded-2xl p-6 border border-dark-border/50 w-full max-w-md relative overflow-hidden"
+              className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 w-full max-w-md relative overflow-hidden mx-4 sm:mx-0"
             >
               {/* Animated gradient border */}
               <div className="absolute inset-0 rounded-2xl opacity-20">

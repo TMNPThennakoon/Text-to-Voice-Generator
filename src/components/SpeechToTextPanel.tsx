@@ -53,7 +53,7 @@ export const SpeechToTextPanel = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="glass-strong rounded-2xl p-6 border border-dark-border/50 relative overflow-hidden"
+        className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50 relative overflow-hidden"
       >
         <div className="flex items-center gap-3 text-yellow-400">
           <AlertCircle className="w-5 h-5" />
