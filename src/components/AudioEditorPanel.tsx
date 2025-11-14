@@ -422,8 +422,8 @@ export const AudioEditorPanel = () => {
             <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
           </motion.div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold gradient-text">PCM Audio Generator</h2>
-            <p className="text-xs sm:text-sm text-dark-textSecondary">Mini Audacity for ESP32/Arduino</p>
+            <h2 className="text-2xl sm:text-3xl font-bold gradient-text">PCM Audio Generator</h2>
+            <p className="text-sm sm:text-base text-dark-textSecondary">Mini Audacity for ESP32/Arduino</p>
           </div>
         </div>
 
@@ -433,7 +433,7 @@ export const AudioEditorPanel = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleRecord}
-            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-base sm:text-lg ${
               isRecording
                 ? 'bg-red-500 hover:bg-red-600 text-white'
                 : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
@@ -447,7 +447,7 @@ export const AudioEditorPanel = () => {
           <motion.label
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white cursor-pointer text-sm sm:text-base"
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white cursor-pointer text-base sm:text-lg"
           >
             <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="hidden sm:inline">Import WAV/MP3</span>
@@ -462,11 +462,11 @@ export const AudioEditorPanel = () => {
         </div>
 
         {/* Waveform Viewer */}
-        <div className="overflow-x-auto">
+        <div className="w-full overflow-hidden">
           <WaveformViewer
             audioBuffer={audioBuffer}
             width={800}
-            height={200}
+            height={150}
             progress={playbackProgress}
           />
         </div>
@@ -477,11 +477,11 @@ export const AudioEditorPanel = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-2">
               <div className="flex items-center gap-2">
                 <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
-                <span className="text-xs sm:text-sm font-semibold text-dark-text">
+                <span className="text-sm sm:text-base font-semibold text-dark-text">
                   {formatTime(currentTime)} / {formatTime(audioBuffer.duration)}
                 </span>
               </div>
-              <div className="text-[10px] sm:text-xs text-dark-textSecondary">
+              <div className="text-xs sm:text-sm text-dark-textSecondary">
                 <span className="hidden sm:inline">Sample Rate: {audioBuffer.sampleRate}Hz | Channels: {audioBuffer.numberOfChannels}</span>
                 <span className="sm:hidden">{audioBuffer.sampleRate}Hz | {audioBuffer.numberOfChannels}ch</span>
               </div>
@@ -526,7 +526,7 @@ export const AudioEditorPanel = () => {
         <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Voice Style</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Voice Style</h3>
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
@@ -544,7 +544,7 @@ export const AudioEditorPanel = () => {
                 title={style.description}
               >
                 <div className="text-xl sm:text-2xl mb-0.5 sm:mb-1">{style.icon}</div>
-                <div className="text-xs sm:text-sm font-semibold text-center">{style.name}</div>
+                <div className="text-sm sm:text-base font-semibold text-center">{style.name}</div>
               </motion.button>
             ))}
           </div>
@@ -555,7 +555,7 @@ export const AudioEditorPanel = () => {
       {audioBuffer && (
         <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 mb-4">
-            <h3 className="text-lg sm:text-xl font-semibold gradient-text">Audio Editing</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Audio Editing</h3>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -563,7 +563,7 @@ export const AudioEditorPanel = () => {
               className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-lg hover:border-orange-500/50 text-dark-textSecondary hover:text-orange-400 transition-all w-full sm:w-auto justify-center sm:justify-start"
             >
               <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm font-medium">Reset Settings</span>
+              <span className="text-sm sm:text-base font-medium">Reset Settings</span>
             </motion.button>
           </div>
           
@@ -576,14 +576,14 @@ export const AudioEditorPanel = () => {
               className="flex flex-col items-center gap-2 p-4 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
               <Volume2 className="w-5 h-5 text-purple-400" />
-              <span className="text-sm font-medium">Normalize</span>
+              <span className="text-base font-medium">Normalize</span>
             </motion.button>
 
             {/* Amplify */}
             <div className="flex flex-col gap-2 p-4 glass border border-dark-border/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <Zap className="w-5 h-5 text-yellow-400" />
-                <span className="text-sm font-medium">Amplify</span>
+                <span className="text-base font-medium">Amplify</span>
               </div>
               <input
                 type="range"
@@ -594,12 +594,12 @@ export const AudioEditorPanel = () => {
                 onChange={(e) => setAmplifyGain(parseFloat(e.target.value))}
                 className="w-full"
               />
-              <span className="text-xs text-dark-textSecondary">{amplifyGain.toFixed(1)}x</span>
+              <span className="text-sm text-dark-textSecondary font-medium">{amplifyGain.toFixed(1)}x</span>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => applyEffect('amplify')}
-                className="px-3 py-1 bg-purple-500 text-white rounded text-xs"
+                className="px-4 py-2 bg-purple-500 text-white rounded text-sm font-medium"
               >
                 Apply
               </motion.button>
@@ -613,7 +613,7 @@ export const AudioEditorPanel = () => {
               className="flex flex-col items-center gap-2 p-4 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
               <Sparkles className="w-5 h-5 text-cyan-400" />
-              <span className="text-sm font-medium">Robot Voice</span>
+              <span className="text-base font-medium">Robot Voice</span>
             </motion.button>
 
             {/* Noise Reduction */}
@@ -624,14 +624,14 @@ export const AudioEditorPanel = () => {
               className="flex flex-col items-center gap-2 p-4 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
               <Filter className="w-5 h-5 text-green-400" />
-              <span className="text-sm font-medium">Noise Reduce</span>
+              <span className="text-base font-medium">Noise Reduce</span>
             </motion.button>
 
             {/* Pitch Shift */}
             <div className="flex flex-col gap-2 p-4 glass border border-dark-border/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="w-5 h-5 text-pink-400" />
-                <span className="text-sm font-medium">Pitch</span>
+                <span className="text-base font-medium">Pitch</span>
               </div>
               <input
                 type="range"
@@ -642,12 +642,12 @@ export const AudioEditorPanel = () => {
                 onChange={(e) => setPitchSemitones(parseInt(e.target.value))}
                 className="w-full"
               />
-              <span className="text-xs text-dark-textSecondary">{pitchSemitones > 0 ? '+' : ''}{pitchSemitones} semitones</span>
+              <span className="text-sm text-dark-textSecondary font-medium">{pitchSemitones > 0 ? '+' : ''}{pitchSemitones} semitones</span>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => applyEffect('pitch')}
-                className="px-3 py-1 bg-purple-500 text-white rounded text-xs"
+                className="px-4 py-2 bg-purple-500 text-white rounded text-sm font-medium"
               >
                 Apply
               </motion.button>
@@ -657,7 +657,7 @@ export const AudioEditorPanel = () => {
             <div className="flex flex-col gap-2 p-4 glass border border-dark-border/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <Gauge className="w-5 h-5 text-blue-400" />
-                <span className="text-sm font-medium">Speed</span>
+                <span className="text-base font-medium">Speed</span>
               </div>
               <input
                 type="range"
@@ -668,12 +668,12 @@ export const AudioEditorPanel = () => {
                 onChange={(e) => setSpeedMultiplier(parseFloat(e.target.value))}
                 className="w-full"
               />
-              <span className="text-xs text-dark-textSecondary">{speedMultiplier.toFixed(1)}x</span>
+              <span className="text-sm text-dark-textSecondary font-medium">{speedMultiplier.toFixed(1)}x</span>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => applyEffect('speed')}
-                className="px-3 py-1 bg-purple-500 text-white rounded text-xs"
+                className="px-4 py-2 bg-purple-500 text-white rounded text-sm font-medium"
               >
                 Apply
               </motion.button>
@@ -684,11 +684,11 @@ export const AudioEditorPanel = () => {
               <div className="flex flex-col gap-2 p-3 sm:p-4 glass border border-dark-border/50 rounded-lg sm:col-span-2">
                 <div className="flex items-center gap-2 mb-2">
                   <Scissors className="w-5 h-5 text-orange-400" />
-                  <span className="text-sm font-medium">Trim (seconds)</span>
+                  <span className="text-base font-medium">Trim (seconds)</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs text-dark-textSecondary">Start:</label>
+                    <label className="text-sm text-dark-textSecondary font-medium">Start:</label>
                     <input
                       type="number"
                       min="0"
@@ -696,11 +696,11 @@ export const AudioEditorPanel = () => {
                       step="0.1"
                       value={trimStart}
                       onChange={(e) => setTrimStart(parseFloat(e.target.value))}
-                      className="w-full glass border border-dark-border/50 rounded px-2 py-1 text-sm"
+                      className="w-full glass border border-dark-border/50 rounded px-3 py-2 text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-dark-textSecondary">End:</label>
+                    <label className="text-sm text-dark-textSecondary font-medium">End:</label>
                     <input
                       type="number"
                       min="0"
@@ -708,7 +708,7 @@ export const AudioEditorPanel = () => {
                       step="0.1"
                       value={trimEnd}
                       onChange={(e) => setTrimEnd(parseFloat(e.target.value))}
-                      className="w-full glass border border-dark-border/50 rounded px-2 py-1 text-sm"
+                      className="w-full glass border border-dark-border/50 rounded px-3 py-2 text-base"
                     />
                   </div>
                 </div>
@@ -716,7 +716,7 @@ export const AudioEditorPanel = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => applyEffect('trim')}
-                  className="px-3 py-1 bg-purple-500 text-white rounded text-xs mt-2"
+                  className="px-4 py-2 bg-purple-500 text-white rounded text-sm font-medium mt-2"
                 >
                   Apply Trim
                 </motion.button>
@@ -729,17 +729,17 @@ export const AudioEditorPanel = () => {
       {/* PCM Export Settings */}
       {audioBuffer && (
         <div className="glass-strong rounded-2xl p-4 sm:p-6 border border-dark-border/50">
-          <h3 className="text-lg sm:text-xl font-semibold gradient-text mb-4">PCM Export Settings</h3>
+          <h3 className="text-xl sm:text-2xl font-semibold gradient-text mb-4">PCM Export Settings</h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
-              <label className="block text-sm font-medium text-dark-textSecondary mb-2">
+              <label className="block text-base font-medium text-dark-textSecondary mb-2">
                 Sample Rate
               </label>
               <select
                 value={pcmSampleRate}
                 onChange={(e) => setPcmSampleRate(parseInt(e.target.value) as 8000 | 11025 | 16000)}
-                className="w-full glass border border-dark-border/50 rounded-lg px-4 py-2 text-dark-text"
+                className="w-full glass border border-dark-border/50 rounded-lg px-4 py-3 text-base text-dark-text"
               >
                 <option value={8000}>8000 Hz</option>
                 <option value={11025}>11025 Hz</option>
@@ -748,14 +748,14 @@ export const AudioEditorPanel = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-dark-textSecondary mb-2">
+              <label className="block text-base font-medium text-dark-textSecondary mb-2">
                 Array Name
               </label>
               <input
                 type="text"
                 value={arrayName}
                 onChange={(e) => setArrayName(e.target.value)}
-                className="w-full glass border border-dark-border/50 rounded-lg px-4 py-2 text-dark-text"
+                className="w-full glass border border-dark-border/50 rounded-lg px-4 py-3 text-base text-dark-text"
                 placeholder="audioData"
               />
             </div>
@@ -767,7 +767,7 @@ export const AudioEditorPanel = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleCopyPCMBytes}
-              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
+              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all text-base sm:text-lg ${
                 copied
                   ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
                   : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
@@ -775,17 +775,17 @@ export const AudioEditorPanel = () => {
             >
               {copied ? (
                 <>
-                  <Check className="w-5 h-5" />
+                  <Check className="w-5 h-5 sm:w-6 sm:h-6" />
                   Copied to Clipboard!
                 </>
               ) : (
                 <>
-                  <Copy className="w-5 h-5" />
+                  <Copy className="w-5 h-5 sm:w-6 sm:h-6" />
                   Copy PCM Bytes to Clipboard
                 </>
               )}
             </motion.button>
-            <p className="text-xs text-dark-textSecondary mt-2 text-center">
+            <p className="text-sm text-dark-textSecondary mt-2 text-center">
               Copies only the converted audio bytes (comma-separated values)
             </p>
           </div>
@@ -798,8 +798,8 @@ export const AudioEditorPanel = () => {
               onClick={() => handleExport('c')}
               className="flex flex-col items-center gap-2 p-3 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
-              <FileCode className="w-5 h-5 text-purple-400" />
-              <span className="text-xs font-medium">C Array</span>
+              <FileCode className="w-6 h-6 text-purple-400" />
+              <span className="text-sm font-medium">C Array</span>
             </motion.button>
 
             <motion.button
@@ -808,8 +808,8 @@ export const AudioEditorPanel = () => {
               onClick={() => handleExport('header')}
               className="flex flex-col items-center gap-2 p-3 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
-              <FileText className="w-5 h-5 text-blue-400" />
-              <span className="text-xs font-medium">C Header</span>
+              <FileText className="w-6 h-6 text-blue-400" />
+              <span className="text-sm font-medium">C Header</span>
             </motion.button>
 
             <motion.button
@@ -818,8 +818,8 @@ export const AudioEditorPanel = () => {
               onClick={() => handleExport('raw')}
               className="flex flex-col items-center gap-2 p-3 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
-              <Download className="w-5 h-5 text-green-400" />
-              <span className="text-xs font-medium">RAW PCM</span>
+              <Download className="w-6 h-6 text-green-400" />
+              <span className="text-sm font-medium">RAW PCM</span>
             </motion.button>
 
             <motion.button
@@ -828,8 +828,8 @@ export const AudioEditorPanel = () => {
               onClick={() => handleExport('wav')}
               className="flex flex-col items-center gap-2 p-3 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
-              <Music className="w-5 h-5 text-pink-400" />
-              <span className="text-xs font-medium">WAV</span>
+              <Music className="w-6 h-6 text-pink-400" />
+              <span className="text-sm font-medium">WAV</span>
             </motion.button>
 
             <motion.button
@@ -838,8 +838,8 @@ export const AudioEditorPanel = () => {
               onClick={() => handleExport('json')}
               className="flex flex-col items-center gap-2 p-3 glass border border-dark-border/50 rounded-lg hover:border-purple-500/50"
             >
-              <FileJson className="w-5 h-5 text-yellow-400" />
-              <span className="text-xs font-medium">JSON</span>
+              <FileJson className="w-6 h-6 text-yellow-400" />
+              <span className="text-sm font-medium">JSON</span>
             </motion.button>
           </div>
         </div>
