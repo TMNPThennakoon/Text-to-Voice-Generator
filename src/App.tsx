@@ -14,10 +14,24 @@ import { AnimatedBackground } from './components/AnimatedBackground';
 import { GradientOrb } from './components/GradientOrb';
 import { AudioVisualizer } from './components/AudioVisualizer';
 import { ProgressIndicator } from './components/ProgressIndicator';
-import { Volume2, Sparkles, Waves, Languages, Mic, FileText, Settings } from 'lucide-react';
+import { Volume2, Sparkles, Waves, Languages, Mic, FileText, Settings, Moon, Sun, Users, Scissors, BookOpen, GitCompare, Upload as UploadIcon, BarChart3 } from 'lucide-react';
 import { AudioEditorPanel } from './components/AudioEditorPanel';
 import { downloadAudio } from './utils/audioUtils';
 import { AudioFormatModal, AudioFormat } from './components/AudioFormatModal';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { TemplateSelector } from './components/TemplateSelector';
+import { TextFormattingPanel } from './components/TextFormattingPanel';
+import { FileText as FileTextIcon } from 'lucide-react';
+import { useTheme } from './hooks/useTheme';
+import { DialogueMode } from './components/DialogueMode';
+import { PronunciationDictionaryPanel } from './components/PronunciationDictionaryPanel';
+import { TextChunkingPanel } from './components/TextChunkingPanel';
+import { VoiceComparisonTool } from './components/VoiceComparisonTool';
+import { UsageStatistics } from './components/UsageStatistics';
+import { BatchProcessor } from './components/BatchProcessor';
+import { useWorkspace } from './hooks/useWorkspace';
+import { WorkspaceTabs } from './components/WorkspaceTabs';
+import { AudioEffectsPanel } from './components/AudioEffectsPanel';
 
 function App() {
   const {
@@ -59,8 +73,13 @@ function App() {
     clearTranscript,
   } = useSpeechToText();
 
-  const [activeTab, setActiveTab] = useState<'text' | 'translate' | 'speech' | 'audio-editor'>('text');
+  const [activeTab, setActiveTab] = useState<'text' | 'translate' | 'speech' | 'audio-editor' | 'dialogue' | 'pronunciation' | 'chunking' | 'comparison' | 'stats' | 'batch'>('text');
   const [showFormatModal, setShowFormatModal] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [showVoiceComparison, setShowVoiceComparison] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { theme, toggleTheme } = useTheme();
+  const workspace = useWorkspace();
 
   const headerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -126,6 +145,35 @@ function App() {
     setActiveTab('text');
   };
 
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onPlay: () => !isPlaying && text.trim() ? play() : undefined,
+    onPause: () => isPlaying ? pause() : undefined,
+    onStop: () => stop(),
+    onDownload: () => handleDownload(),
+    onTranslate: () => setActiveTab('translate'),
+    onClear: () => setText(''),
+    onFocusText: () => {
+      textareaRef.current?.focus();
+      setActiveTab('text');
+    },
+  });
+
+  const handleTemplateSelect = (template: { text: string }) => {
+    setText(template.text);
+    setShowTemplates(false);
+    setActiveTab('text');
+  };
+
+  const handleToggleFavorite = (id: string) => {
+    // Update history item favorite status
+    const updatedHistory = history.map(item =>
+      item.id === id ? { ...item, isFavorite: !item.isFavorite } : item
+    );
+    // Save to localStorage
+    localStorage.setItem('tts-history', JSON.stringify(updatedHistory.slice(-50)));
+  };
+
 
   return (
     <div className="min-h-screen bg-dark-bg relative overflow-hidden">
@@ -172,14 +220,29 @@ function App() {
                 <p className="text-sm sm:text-base text-dark-textSecondary hidden sm:block">Advanced TTS Platform - Free & Open Source</p>
               </div>
             </motion.div>
-            <motion.div
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-xl flex-shrink-0"
-            >
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
-              <span className="text-sm sm:text-base text-dark-text font-medium hidden xs:inline">100% Free</span>
-            </motion.div>
+            <div className="flex items-center gap-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleTheme}
+                className="p-2 rounded-lg glass border border-dark-border/50 hover:bg-dark-hover"
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+                ) : (
+                  <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                )}
+              </motion.button>
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 glass border border-dark-border/50 rounded-xl flex-shrink-0"
+              >
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+                <span className="text-sm sm:text-base text-dark-text font-medium hidden xs:inline">100% Free</span>
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -196,6 +259,12 @@ function App() {
             { id: 'text', label: 'Text Input', icon: FileText, shortLabel: 'Text' },
             { id: 'translate', label: 'Translate', icon: Languages, shortLabel: 'Translate' },
             { id: 'speech', label: 'Voice to Text', icon: Mic, shortLabel: 'Voice' },
+            { id: 'dialogue', label: 'Dialogue', icon: Users, shortLabel: 'Dialogue' },
+            { id: 'pronunciation', label: 'Dictionary', icon: BookOpen, shortLabel: 'Dict' },
+            { id: 'chunking', label: 'Chunking', icon: Scissors, shortLabel: 'Chunk' },
+            { id: 'comparison', label: 'Compare', icon: GitCompare, shortLabel: 'Compare' },
+            { id: 'stats', label: 'Statistics', icon: BarChart3, shortLabel: 'Stats' },
+            { id: 'batch', label: 'Batch', icon: UploadIcon, shortLabel: 'Batch' },
             { id: 'audio-editor', label: 'Audio Editor', icon: Settings, shortLabel: 'Editor' },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -237,7 +306,27 @@ function App() {
                   rate={settings.rate} 
                   isPlaying={isPlaying}
                   onFileUpload={handleFileUpload}
+                  textareaRef={textareaRef}
                 />
+
+                {/* Text Formatting Panel */}
+                {text.trim() && (
+                  <TextFormattingPanel
+                    text={text}
+                    onTextChange={setText}
+                  />
+                )}
+
+                {/* Template Selector Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowTemplates(true)}
+                  className="w-full glass-strong border border-dark-border/50 rounded-xl p-4 flex items-center justify-center gap-2 text-dark-text hover:text-dark-accent transition-colors"
+                >
+                  <FileTextIcon className="w-5 h-5" />
+                  <span className="font-semibold">Browse Text Templates</span>
+                </motion.button>
                 
                 {/* Audio Visualizer */}
                 <motion.div
@@ -335,6 +424,101 @@ function App() {
               </motion.div>
             )}
 
+            {activeTab === 'dialogue' && (
+              <motion.div
+                key="dialogue"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <DialogueMode
+                  availableVoices={availableVoices}
+                  onPlay={(speakers) => {
+                    // Play all speakers sequentially
+                    speakers.forEach((speaker, index) => {
+                      setTimeout(() => {
+                        const utterance = new SpeechSynthesisUtterance(speaker.text);
+                        utterance.voice = speaker.voice;
+                        utterance.rate = speaker.settings.rate;
+                        utterance.pitch = speaker.settings.pitch;
+                        utterance.volume = speaker.settings.volume;
+                        speechSynthesis.speak(utterance);
+                      }, index * 2000);
+                    });
+                  }}
+                />
+              </motion.div>
+            )}
+
+            {activeTab === 'pronunciation' && (
+              <motion.div
+                key="pronunciation"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <PronunciationDictionaryPanel />
+              </motion.div>
+            )}
+
+            {activeTab === 'chunking' && (
+              <motion.div
+                key="chunking"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <TextChunkingPanel
+                  text={text}
+                  onChunkSelect={(chunk) => {
+                    setText(chunk.text);
+                    setActiveTab('text');
+                  }}
+                />
+              </motion.div>
+            )}
+
+            {activeTab === 'comparison' && (
+              <motion.div
+                key="comparison"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <VoiceComparisonTool
+                  text={text}
+                  availableVoices={availableVoices}
+                />
+              </motion.div>
+            )}
+
+            {activeTab === 'stats' && (
+              <motion.div
+                key="stats"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <UsageStatistics history={history} />
+              </motion.div>
+            )}
+
+            {activeTab === 'batch' && (
+              <motion.div
+                key="batch"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <BatchProcessor
+                  onProcess={(items) => {
+                    console.log('Processing batch:', items);
+                    // Process batch items
+                  }}
+                />
+              </motion.div>
+            )}
+
             {activeTab === 'audio-editor' && (
               <motion.div
                 key="audio-editor"
@@ -353,6 +537,7 @@ function App() {
                 onLoad={loadFromHistory}
                 onDelete={deleteHistoryItem}
                 onClear={clearHistory}
+                onToggleFavorite={handleToggleFavorite}
               />
             )}
           </div>
@@ -400,6 +585,18 @@ function App() {
         onClose={() => setShowFormatModal(false)}
         onSelectFormat={handleFormatSelect}
       />
+
+      {/* Template Selector Modal */}
+      {showTemplates && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="max-w-2xl w-full max-h-[80vh]">
+            <TemplateSelector
+              onSelect={handleTemplateSelect}
+              onClose={() => setShowTemplates(false)}
+            />
+          </div>
+        </div>
+      )}
       </div>
   );
 }

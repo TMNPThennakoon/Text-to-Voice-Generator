@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
 import { VoiceSettings, SpeechSynthesisVoice } from '../types';
-import { Volume2, Gauge, TrendingUp, Mic, Search, X, Sparkles } from 'lucide-react';
+import { Volume2, Gauge, TrendingUp, Mic, Search, X, Sparkles, User, Eye } from 'lucide-react';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
+import { EmotionPresets } from './EmotionPresets';
+import { VoiceProfileSelector } from './VoiceProfileSelector';
+import { VoicePreview } from './VoicePreview';
+import { emotionPresets } from '../utils/emotionPresets';
 
 interface VoiceControlsProps {
   settings: VoiceSettings;
@@ -27,6 +31,8 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStyle, setSelectedStyle] = useState<string>('normal');
   const [showSinhalaOnly, setShowSinhalaOnly] = useState(false);
+  const [showVoicePreview, setShowVoicePreview] = useState(false);
+  const [showVoiceProfiles, setShowVoiceProfiles] = useState(false);
   
   // Filter voices based on search query and prioritize Sinhala voices
   const filteredVoices = useMemo(() => {
@@ -152,6 +158,19 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
     }
   };
 
+  const handleEmotionSelect = (preset: typeof emotionPresets[0]) => {
+    onSettingsChange({
+      pitch: preset.pitch,
+      rate: preset.rate,
+      volume: preset.volume,
+    });
+  };
+
+  const handleProfileSelect = (profile: { settings: VoiceSettings }) => {
+    onSettingsChange(profile.settings);
+    setShowVoiceProfiles(false);
+  };
+
   return (
     <motion.div
       ref={containerRef}
@@ -166,18 +185,72 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
       </div>
 
       <div className="relative z-10">
-        <motion.div 
-          className="flex items-center gap-2 mb-4 sm:mb-6"
-          whileHover={{ scale: 1.05 }}
-        >
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <motion.div 
+            className="flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
           >
-            <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-dark-accent" />
+            </motion.div>
+            <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Voice Settings</h3>
           </motion.div>
-          <h3 className="text-xl sm:text-2xl font-semibold gradient-text">Voice Settings</h3>
-        </motion.div>
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowVoicePreview(!showVoicePreview)}
+              className="p-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 transition-colors"
+              title="Preview voice"
+            >
+              <Eye className="w-4 h-4" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowVoiceProfiles(!showVoiceProfiles)}
+              className="p-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 transition-colors"
+              title="Voice profiles"
+            >
+              <User className="w-4 h-4" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Voice Preview */}
+        {showVoicePreview && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-4"
+          >
+            <VoicePreview
+              voice={settings.voice}
+              settings={settings}
+              onClose={() => setShowVoicePreview(false)}
+            />
+          </motion.div>
+        )}
+
+        {/* Voice Profiles */}
+        {showVoiceProfiles && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-4"
+          >
+            <VoiceProfileSelector
+              currentSettings={settings}
+              onSelect={handleProfileSelect}
+              onClose={() => setShowVoiceProfiles(false)}
+            />
+          </motion.div>
+        )}
         
         <div className="space-y-4 sm:space-y-6">
           {/* Voice Style Presets */}
@@ -215,6 +288,12 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
               ))}
             </div>
           </motion.div>
+
+          {/* Emotion Presets */}
+          <EmotionPresets
+            onSelect={handleEmotionSelect}
+            currentSettings={settings}
+          />
 
           {/* Sinhala Voice Presets */}
           {sinhalaVoices.length > 0 && (

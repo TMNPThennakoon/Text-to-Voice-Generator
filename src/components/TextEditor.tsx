@@ -11,10 +11,12 @@ interface TextEditorProps {
   rate: number;
   isPlaying: boolean;
   onFileUpload?: (content: string) => void;
+  textareaRef?: React.RefObject<HTMLTextAreaElement>;
 }
 
-export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload }: TextEditorProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+export const TextEditor = ({ text, onChange, rate, isPlaying, onFileUpload, textareaRef: externalRef }: TextEditorProps) => {
+  const internalRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = externalRef || internalRef;
   const containerRef = useRef<HTMLDivElement>(null);
   const charCount = getCharacterCount(text);
   const wordCount = getWordCount(text);

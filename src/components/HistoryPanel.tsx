@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { History, Trash2, Clock, Play } from 'lucide-react';
+import { History, Trash2, Clock, Play, Search, Star, Download, X, Filter } from 'lucide-react';
 import { HistoryItem } from '../types';
+import { useState, useMemo } from 'react';
 
 const formatTimeAgo = (timestamp: number): string => {
   const seconds = Math.floor((Date.now() - timestamp) / 1000);
@@ -24,9 +25,59 @@ interface HistoryPanelProps {
   onLoad: (item: HistoryItem) => void;
   onDelete: (id: string) => void;
   onClear: () => void;
+  onToggleFavorite?: (id: string) => void;
 }
 
-export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPanelProps) => {
+export const HistoryPanel = ({ history, onLoad, onDelete, onClear, onToggleFavorite }: HistoryPanelProps) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [sortBy, setSortBy] = useState<'date' | 'length'>('date');
+
+  const filteredHistory = useMemo(() => {
+    let filtered = [...history];
+
+    // Filter by favorites
+    if (showFavoritesOnly) {
+      filtered = filtered.filter(item => item.isFavorite);
+    }
+
+    // Filter by search
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(item =>
+        item.text.toLowerCase().includes(query) ||
+        item.settings.voiceName?.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      if (sortBy === 'date') {
+        return b.timestamp - a.timestamp;
+      } else {
+        return b.text.length - a.text.length;
+      }
+    });
+
+    return filtered;
+  }, [history, searchQuery, showFavoritesOnly, sortBy]);
+
+  const handleExport = () => {
+    const dataStr = JSON.stringify(history, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `tts-history-${Date.now()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleToggleFavorite = (id: string) => {
+    if (onToggleFavorite) {
+      onToggleFavorite(id);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,33 +108,98 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
               animate={{ scale: history.length > 0 ? [1, 1.1, 1] : 1 }}
               transition={{ duration: 0.5 }}
             >
-              ({history.length})
+              ({filteredHistory.length}/{history.length})
             </motion.span>
           </motion.div>
-          {history.length > 0 && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onClear}
-              className="text-xs sm:text-sm text-red-400 hover:text-red-300 transition-colors px-2 sm:px-3 py-1 rounded border border-red-400/30 hover:bg-red-400/10 whitespace-nowrap"
-            >
-              Clear All
-            </motion.button>
-          )}
+          <div className="flex items-center gap-2">
+            {history.length > 0 && (
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleExport}
+                  className="text-xs sm:text-sm text-blue-400 hover:text-blue-300 transition-colors px-2 sm:px-3 py-1 rounded border border-blue-400/30 hover:bg-blue-400/10 whitespace-nowrap flex items-center gap-1"
+                  title="Export history"
+                >
+                  <Download className="w-3 h-3" />
+                  Export
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onClear}
+                  className="text-xs sm:text-sm text-red-400 hover:text-red-300 transition-colors px-2 sm:px-3 py-1 rounded border border-red-400/30 hover:bg-red-400/10 whitespace-nowrap"
+                >
+                  Clear All
+                </motion.button>
+              </>
+            )}
+          </div>
         </div>
+
+        {/* Search and Filters */}
+        {history.length > 0 && (
+          <div className="space-y-2 mb-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-dark-textSecondary" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search history..."
+                className="w-full glass border border-dark-border/50 rounded-lg pl-10 pr-10 py-2 text-sm text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-dark-textSecondary hover:text-dark-text"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                  showFavoritesOnly
+                    ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
+                    : 'bg-dark-surface/50 text-dark-textSecondary border border-dark-border/50 hover:border-yellow-500/50'
+                }`}
+              >
+                <Star className={`w-3 h-3 ${showFavoritesOnly ? 'fill-current' : ''}`} />
+                Favorites
+              </motion.button>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'date' | 'length')}
+                className="flex-1 glass border border-dark-border/50 rounded-lg px-3 py-1.5 text-xs text-dark-text bg-dark-surface/50 focus:outline-none"
+              >
+                <option value="date">Sort by Date</option>
+                <option value="length">Sort by Length</option>
+              </select>
+            </div>
+          </div>
+        )}
 
       <div className="space-y-2 max-h-64 overflow-y-auto scrollbar-hide">
         <AnimatePresence>
-          {history.length === 0 ? (
+          {filteredHistory.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-center py-8 text-dark-textSecondary"
             >
-              No history yet. Your generated speech will appear here.
+              {history.length === 0
+                ? 'No history yet. Your generated speech will appear here.'
+                : searchQuery || showFavoritesOnly
+                ? 'No items match your filters.'
+                : 'No history yet.'}
             </motion.div>
           ) : (
-            history.map((item) => (
+            filteredHistory.map((item) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -107,6 +223,19 @@ export const HistoryPanel = ({ history, onLoad, onDelete, onClear }: HistoryPane
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {onToggleFavorite && (
+                      <button
+                        onClick={() => handleToggleFavorite(item.id)}
+                        className={`p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100 ${
+                          item.isFavorite
+                            ? 'opacity-100 text-yellow-400 hover:text-yellow-300'
+                            : 'hover:bg-dark-border text-dark-textSecondary hover:text-yellow-400'
+                        }`}
+                        title={item.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                      >
+                        <Star className={`w-4 h-4 ${item.isFavorite ? 'fill-current' : ''}`} />
+                      </button>
+                    )}
                     <button
                       onClick={() => onLoad(item)}
                       className="p-2 hover:bg-dark-border rounded-lg transition-colors opacity-0 group-hover:opacity-100"
