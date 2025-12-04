@@ -418,23 +418,6 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                 {showSinhalaOnly && ` (${sinhalaVoices.length} Sinhala available)`}
               </p>
             )}
-            {sinhalaVoices.length === 0 && !showSinhalaOnly && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mt-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30"
-              >
-                <p className="text-xs text-yellow-400">
-                  💡 <strong>No Sinhala voices detected.</strong> To add Sinhala voices:
-                  <br />
-                  • <strong>Windows:</strong> Settings → Time & Language → Language → Add Sinhala
-                  <br />
-                  • <strong>Mac:</strong> System Preferences → Keyboard → Input Sources → Add Sinhala
-                  <br />
-                  • <strong>Chrome:</strong> May require system language pack installation
-                </p>
-              </motion.div>
-            )}
             <motion.select
               whileFocus={{ scale: 1.02 }}
               value={settings.voice?.name || ''}
