@@ -26,34 +26,50 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
   const containerRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStyle, setSelectedStyle] = useState<string>('normal');
+  const [showSinhalaOnly, setShowSinhalaOnly] = useState(false);
   
   // Filter voices based on search query and prioritize Sinhala voices
   const filteredVoices = useMemo(() => {
     let voices = availableVoices;
     
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      voices = availableVoices.filter(voice => 
-        voice.name.toLowerCase().includes(query) ||
-        voice.lang.toLowerCase().includes(query) ||
-        voice.name.toLowerCase().includes(query)
+    // Filter by Sinhala only if toggle is on
+    if (showSinhalaOnly) {
+      voices = availableVoices.filter(v => 
+        v.lang.toLowerCase().startsWith('si') || 
+        v.lang.toLowerCase().includes('sinhala') ||
+        v.name.toLowerCase().includes('sinhala') ||
+        v.name.toLowerCase().includes('sinhalese') ||
+        v.name.toLowerCase().includes('sri lanka')
       );
     }
     
-    // Prioritize Sinhala voices (si or si-LK)
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      voices = voices.filter(voice => 
+        voice.name.toLowerCase().includes(query) ||
+        voice.lang.toLowerCase().includes(query) ||
+        voice.lang.toLowerCase().includes(query.replace('sinhala', 'si').replace('sinhalese', 'si'))
+      );
+    }
+    
+    // Always prioritize Sinhala voices (si or si-LK)
     const sinhalaVoices = voices.filter(v => 
       v.lang.toLowerCase().startsWith('si') || 
+      v.lang.toLowerCase().includes('sinhala') ||
       v.name.toLowerCase().includes('sinhala') ||
-      v.name.toLowerCase().includes('sinhalese')
+      v.name.toLowerCase().includes('sinhalese') ||
+      v.name.toLowerCase().includes('sri lanka')
     );
     const otherVoices = voices.filter(v => 
       !v.lang.toLowerCase().startsWith('si') && 
+      !v.lang.toLowerCase().includes('sinhala') &&
       !v.name.toLowerCase().includes('sinhala') &&
-      !v.name.toLowerCase().includes('sinhalese')
+      !v.name.toLowerCase().includes('sinhalese') &&
+      !v.name.toLowerCase().includes('sri lanka')
     );
     
     return [...sinhalaVoices, ...otherVoices];
-  }, [availableVoices, searchQuery]);
+  }, [availableVoices, searchQuery, showSinhalaOnly]);
   
   const groupedVoices = filteredVoices.reduce((acc, voice) => {
     const lang = voice.lang.split('-')[0];
@@ -66,8 +82,10 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
   const sinhalaVoices = useMemo(() => {
     return availableVoices.filter(v => 
       v.lang.toLowerCase().startsWith('si') || 
+      v.lang.toLowerCase().includes('sinhala') ||
       v.name.toLowerCase().includes('sinhala') ||
-      v.name.toLowerCase().includes('sinhalese')
+      v.name.toLowerCase().includes('sinhalese') ||
+      v.name.toLowerCase().includes('sri lanka')
     );
   }, [availableVoices]);
 
@@ -268,16 +286,38 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <label className="block text-base font-medium text-dark-textSecondary mb-2">
-              Voice
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-base font-medium text-dark-textSecondary">
+                Voice
+              </label>
+              {sinhalaVoices.length > 0 && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setShowSinhalaOnly(!showSinhalaOnly);
+                    if (!showSinhalaOnly) {
+                      setSearchQuery('');
+                    }
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    showSinhalaOnly
+                      ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50'
+                      : 'bg-dark-surface/50 text-dark-textSecondary border border-dark-border/50 hover:border-blue-500/50'
+                  }`}
+                  title={showSinhalaOnly ? 'Show all voices' : 'Show Sinhala voices only 🇱🇰'}
+                >
+                  {showSinhalaOnly ? '🇱🇰 Sinhala Only' : '🇱🇰 Show Sinhala'}
+                </motion.button>
+              )}
+            </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-dark-textSecondary" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search voices..."
+                placeholder={showSinhalaOnly ? "Search Sinhala voices..." : "Search voices (e.g., 'sinhala', 'si')..."}
                 className="w-full glass border border-dark-border/50 rounded-lg pl-11 pr-11 py-3 text-base text-dark-text placeholder-dark-textSecondary focus:outline-none focus:ring-2 focus:ring-dark-accent/50 focus:border-dark-accent/50 transition-all"
               />
               {searchQuery && (
@@ -293,10 +333,28 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
                 </motion.button>
               )}
             </div>
-            {searchQuery && (
+            {(searchQuery || showSinhalaOnly) && (
               <p className="text-sm text-dark-textSecondary mt-1">
                 {filteredVoices.length} voice{filteredVoices.length !== 1 ? 's' : ''} found
+                {showSinhalaOnly && ` (${sinhalaVoices.length} Sinhala available)`}
               </p>
+            )}
+            {sinhalaVoices.length === 0 && !showSinhalaOnly && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30"
+              >
+                <p className="text-xs text-yellow-400">
+                  💡 <strong>No Sinhala voices detected.</strong> To add Sinhala voices:
+                  <br />
+                  • <strong>Windows:</strong> Settings → Time & Language → Language → Add Sinhala
+                  <br />
+                  • <strong>Mac:</strong> System Preferences → Keyboard → Input Sources → Add Sinhala
+                  <br />
+                  • <strong>Chrome:</strong> May require system language pack installation
+                </p>
+              </motion.div>
             )}
             <motion.select
               whileFocus={{ scale: 1.02 }}
@@ -310,21 +368,54 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
               {Object.keys(groupedVoices).length === 0 ? (
                 <option value="">No voices found</option>
               ) : (
-                Object.entries(groupedVoices).map(([lang, voices]) => {
-                  const isSinhala = lang.toLowerCase() === 'si';
-                  return (
-                    <optgroup 
-                      key={lang} 
-                      label={isSinhala ? `🇱🇰 ${lang.toUpperCase()} (Sinhala)` : lang.toUpperCase()}
-                    >
-                      {voices.map((voice) => (
-                        <option key={voice.name} value={voice.name}>
-                          {voice.name} ({voice.lang})
-                        </option>
-                      ))}
-                    </optgroup>
-                  );
-                })
+                <>
+                  {/* Show Sinhala voices first with special styling */}
+                  {Object.entries(groupedVoices)
+                    .filter(([lang]) => {
+                      const langLower = lang.toLowerCase();
+                      return langLower === 'si' || 
+                             langLower.includes('sinhala') ||
+                             groupedVoices[lang].some(v => 
+                               v.name.toLowerCase().includes('sinhala') ||
+                               v.name.toLowerCase().includes('sinhalese')
+                             );
+                    })
+                    .map(([lang, voices]) => (
+                      <optgroup 
+                        key={`sinhala-${lang}`} 
+                        label={`🇱🇰 SINHALA (${lang.toUpperCase()}) - ${voices.length} voice${voices.length !== 1 ? 's' : ''}`}
+                      >
+                        {voices.map((voice) => (
+                          <option key={voice.name} value={voice.name} style={{ fontWeight: 'bold' }}>
+                            🇱🇰 {voice.name} ({voice.lang})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  {/* Show other languages */}
+                  {Object.entries(groupedVoices)
+                    .filter(([lang]) => {
+                      const langLower = lang.toLowerCase();
+                      return langLower !== 'si' && 
+                             !langLower.includes('sinhala') &&
+                             !groupedVoices[lang].some(v => 
+                               v.name.toLowerCase().includes('sinhala') ||
+                               v.name.toLowerCase().includes('sinhalese')
+                             );
+                    })
+                    .map(([lang, voices]) => (
+                      <optgroup 
+                        key={lang} 
+                        label={lang.toUpperCase()}
+                      >
+                        {voices.map((voice) => (
+                          <option key={voice.name} value={voice.name}>
+                            {voice.name} ({voice.lang})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                </>
               )}
             </motion.select>
           </motion.div>

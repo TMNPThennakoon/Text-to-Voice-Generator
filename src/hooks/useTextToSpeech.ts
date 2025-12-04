@@ -27,12 +27,17 @@ export const useTextToSpeech = () => {
       
       // Set default voice if not set
       if (!settings.voice && voices.length > 0) {
-        // Prioritize Sinhala voices if available
-        const sinhalaVoice = voices.find(v => 
-          v.lang.toLowerCase().startsWith('si') || 
-          v.name.toLowerCase().includes('sinhala') ||
-          v.name.toLowerCase().includes('sinhalese')
-        );
+        // Prioritize Sinhala voices if available (check multiple variations)
+        const sinhalaVoice = voices.find(v => {
+          const langLower = v.lang.toLowerCase();
+          const nameLower = v.name.toLowerCase();
+          return langLower.startsWith('si') || 
+                 langLower.includes('sinhala') ||
+                 nameLower.includes('sinhala') ||
+                 nameLower.includes('sinhalese') ||
+                 nameLower.includes('sri lanka') ||
+                 langLower === 'si-lk';
+        });
         
         const defaultVoice = sinhalaVoice || voices.find(v => v.lang.startsWith('en')) || voices[0];
         setSettings(prev => ({ ...prev, voice: defaultVoice }));
