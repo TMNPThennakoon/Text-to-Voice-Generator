@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Advanced Text-to-Voice Generator Platform with Dark UI",
   "type": "module",
-  "homepage": "https://nayana.top/",
+  "homepage": "nayana.top",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
