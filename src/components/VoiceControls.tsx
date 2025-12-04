@@ -158,7 +158,7 @@ export const VoiceControls = ({ settings, availableVoices, onSettingsChange }: V
     }
   };
 
-  const handleEmotionSelect = (preset: typeof emotionPresets[0]) => {
+  const handleEmotionSelect = (preset: { pitch: number; rate: number; volume: number }) => {
     onSettingsChange({
       pitch: preset.pitch,
       rate: preset.rate,

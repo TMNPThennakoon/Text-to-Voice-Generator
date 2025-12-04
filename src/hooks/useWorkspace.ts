@@ -3,42 +3,50 @@
 import { useState, useEffect } from 'react';
 import { WorkspaceTab, VoiceSettings } from '../types';
 
+function createNewTab(index: number = 1): WorkspaceTab {
+  return {
+    id: `tab-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    name: `Tab ${index}`,
+    text: '',
+    settings: {
+      voice: null,
+      rate: 1,
+      pitch: 1,
+      volume: 1
+    },
+    isActive: false
+  };
+}
+
 export function useWorkspace() {
   const [tabs, setTabs] = useState<WorkspaceTab[]>(() => {
     const saved = localStorage.getItem('workspace-tabs');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
       } catch {
-        return [createNewTab()];
+        // Fall through to default
       }
     }
-    return [createNewTab()];
+    return [createNewTab(1)];
   });
 
-  const [activeTabId, setActiveTabId] = useState<string>(tabs[0]?.id || '');
+  const [activeTabId, setActiveTabId] = useState<string>(() => tabs[0]?.id || '');
 
   useEffect(() => {
-    localStorage.setItem('workspace-tabs', JSON.stringify(tabs));
-  }, [tabs]);
-
-  function createNewTab(): WorkspaceTab {
-    return {
-      id: `tab-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      name: `Tab ${tabs.length + 1}`,
-      text: '',
-      settings: {
-        voice: null,
-        rate: 1,
-        pitch: 1,
-        volume: 1
-      },
-      isActive: false
-    };
-  }
+    if (tabs.length > 0) {
+      localStorage.setItem('workspace-tabs', JSON.stringify(tabs));
+      if (!activeTabId && tabs[0]) {
+        setActiveTabId(tabs[0].id);
+      }
+    }
+  }, [tabs, activeTabId]);
 
   const addTab = () => {
-    const newTab = createNewTab();
+    const newTab = createNewTab(tabs.length + 1);
     setTabs(prev => prev.map(t => ({ ...t, isActive: false })).concat({ ...newTab, isActive: true }));
     setActiveTabId(newTab.id);
   };

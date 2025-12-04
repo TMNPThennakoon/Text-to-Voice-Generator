@@ -1,6 +1,6 @@
 import { VoiceSettings } from '../types';
 import { AudioFormat } from '../components/AudioFormatModal';
-import { createAudioFile } from './audioRecorder';
+import { recordSpeechSynthesis, downloadAudioBlob } from './audioRecorder';
 
 export const downloadAudio = async (
   text: string,
@@ -8,9 +8,14 @@ export const downloadAudio = async (
   format: AudioFormat = 'wav'
 ): Promise<void> => {
   try {
-    await createAudioFile(text, settings, format);
-  } catch (error) {
-    throw error;
+    // Note: Web Speech API has limitations for direct audio recording
+    // This is a fallback implementation
+    const blob = await recordSpeechSynthesis(text, settings);
+    const extension = format === 'mp3' ? 'mp3' : format === 'ogg' ? 'ogg' : 'wav';
+    downloadAudioBlob(blob, `speech.${extension}`);
+  } catch (error: any) {
+    // If recording fails, show user-friendly message
+    throw new Error('Audio recording is not directly supported by the browser. Please use browser recording tools or check the console for more details.');
   }
 };
 
